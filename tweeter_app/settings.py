@@ -11,15 +11,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku # <- this line goes near the top of the file
-
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+import django_heroku
+import environ # new
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+
+env = environ.Env() # new
+
+# reading .env file
+environ.Env.read_env() # new
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '+)n_^65p0mp^_qi#c)!k-_qv=u))9e@29a*4lg)c2rk#0h#rt7'
@@ -132,11 +136,13 @@ LOGOUT_REDIRECT_URL = 'home'
 # SERVER_EMAIL = 'admin@tweeter.com'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER =  os.getenv('SENDGRID_USERNAME') # new
-EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_PASSWORD') # new
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER =  env.str('GMAIL_USERNAME') # new
+EMAIL_HOST_PASSWORD = env.str('GMAIL_PASSWORD') # new
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+# EMAIL_HOST_USER =  os.getenv('SENDGRID_USERNAME') # new
+# EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_PASSWORD') # new
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
